@@ -20,6 +20,7 @@ struct Prefix {
 #[derive(Serialize, Deserialize, Debug)]
 struct Prefixes {
     ipv4_prefixes: Vec<Prefix>,
+    ipv6_prefixes: Vec<Prefix>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -30,27 +31,34 @@ struct Data {
 }
 
 fn main() -> io::Result<()> {
-    for file in ["as4538_prefixes", "as23910_prefixes"].iter() {
+    let mut vec: Vec<IPAddress> = Vec::new();
+    for file in ["as4538_prefixes", "as23910_prefixes", "as24348_prefixes", "as45576_prefixes"].iter() {
         let mut f = File::open(file)?;
         let mut buffer = String::new();
         f.read_to_string(&mut buffer)?;
         let data: Data = serde_json::from_str(&buffer).unwrap();
-        let mut vec: Vec<IPAddress> = Vec::new();
         for prefix in data.data.ipv4_prefixes.iter() {
             if prefix.name.contains("TSINGHUA")
                 || prefix.name.contains("TUZJ")
                 || prefix.name.contains("TUNET")
             {
-                //println!("{}", prefix.prefix);
+                vec.push(IPAddress::parse(prefix.prefix.clone()).unwrap());
+            }
+        }
+        for prefix in data.data.ipv6_prefixes.iter() {
+            if prefix.name.contains("TSINGHUA")
+                || prefix.name.contains("TUZJ")
+                || prefix.name.contains("TUNET")
+            {
                 vec.push(IPAddress::parse(prefix.prefix.clone()).unwrap());
             }
         }
 
-        let aggregated = IPAddress::aggregate(&vec);
+    }
+    let aggregated = IPAddress::aggregate(&vec);
 
-        for prefix in aggregated.iter() {
-            println!("{}", prefix.to_string());
-        }
+    for prefix in aggregated.iter() {
+        println!("{}", prefix.to_string());
     }
 
     Ok(())
