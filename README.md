@@ -12,6 +12,8 @@ IPv4:
 183.173.0.0/17
 183.173.140.0/24
 
+Note: 183.173.0.0/16 is used instead of 183.173.0.0/17 in fact, but its name in BGP does not include "Tsinghua".
+
 IPv6:
 2402:f000::/32
 
