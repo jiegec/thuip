@@ -14,7 +14,7 @@ struct Prefix {
     roa_status: String,
     name: Option<String>,
     description: Option<String>,
-    country_code: String,
+    country_code: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -46,7 +46,11 @@ fn main() -> io::Result<()> {
         let data: Data = serde_json::from_str(&buffer).unwrap();
         for prefix in data.data.ipv4_prefixes.iter() {
             if let Some(name) = &prefix.name {
-                if name.contains("TSINGHUA") || name.contains("TUZJ") || name.contains("TUNET") {
+                if name.contains("TSINGHUA")
+                    || name.contains("TUZJ")
+                    || name.contains("TUNET")
+                    || name.contains("Tsinghua")
+                {
                     vec.push(IPAddress::parse(prefix.prefix.clone()).unwrap());
                 }
             }
