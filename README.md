@@ -22,6 +22,7 @@ Users have reported that 59.66.0.0/17 and 183.173.128.0/17 also belongs to Tsing
 - 183.172.0.0/15
 
 IPv6:
+- 2001:250:200::/48
 - 2402:f000::/32
 
 Pull Requests are welcome.
