@@ -2,7 +2,7 @@
 name = "thuip"
 version = "0.1.0"
 authors = ["Jiajie Chen <noc@jiegec.ac.cn>"]
-edition = "2018"
+edition = "2021"
 
 [dependencies]
 serde = "1.0.137"
