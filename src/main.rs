@@ -65,6 +65,23 @@ fn main() -> io::Result<()> {
     }
     let aggregated = IPAddress::aggregate(&vec);
 
+    println!("Tsinghua:");
+    for prefix in aggregated.iter() {
+        println!("{}", prefix.to_string());
+    }
+
+    println!("AS4538:");
+    let mut f = File::open("as4538_prefixes")?;
+    let mut buffer = String::new();
+    f.read_to_string(&mut buffer)?;
+    let data: Data = serde_json::from_str(&buffer).unwrap();
+    for prefix in data.data.ipv4_prefixes.iter() {
+        vec.push(IPAddress::parse(prefix.prefix.clone()).unwrap());
+    }
+    for prefix in data.data.ipv6_prefixes.iter() {
+        vec.push(IPAddress::parse(prefix.prefix.clone()).unwrap());
+    }
+    let aggregated = IPAddress::aggregate(&vec);
     for prefix in aggregated.iter() {
         println!("{}", prefix.to_string());
     }
