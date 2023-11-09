@@ -70,11 +70,12 @@ fn main() -> io::Result<()> {
         println!("{}", prefix.to_string());
     }
 
-    println!("AS4538:");
-    let mut f = File::open("as4538_prefixes")?;
+    println!("AS24348:");
+    let mut f = File::open("as24348_prefixes")?;
     let mut buffer = String::new();
     f.read_to_string(&mut buffer)?;
     let data: Data = serde_json::from_str(&buffer).unwrap();
+    let mut vec: Vec<IPAddress> = Vec::new();
     for prefix in data.data.ipv4_prefixes.iter() {
         vec.push(IPAddress::parse(prefix.prefix.clone()).unwrap());
     }
